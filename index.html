@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blazor_Event_Ease</title>
+    <base href="/Blazor_Event_Ease/" />
+    <link rel="stylesheet" href="Blazor_Event_Ease/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="Blazor_Event_Ease/css/app.css" />
+    <link rel="icon" type="image/png" href="Blazor_Event_Ease/favicon.png" />
+    <link href="Blazor_Event_Ease/Blazor_Event_Ease.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <script>
+        (function () {
+            var redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+            if (redirect && redirect !== location.href) {
+                history.replaceState(null, null, redirect);
+            }
+        })();
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var basePath = "/Blazor_Event_Ease";
+            if (location.pathname.startsWith(basePath + "/")) {
+                history.replaceState(null, null, location.pathname.replace(basePath, ""));
+            }
+        });
+    </script>
+    
+    <script src="Blazor_Event_Ease/_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>
