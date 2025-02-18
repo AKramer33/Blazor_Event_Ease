@@ -1,0 +1,59 @@
+﻿@page "/register"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Blazor_Event_Ease.Services
+
+<EditForm Model="@registration" OnValidSubmit="SubmitForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="userName">Name:</label>
+        <InputText id="userName" @bind-Value="registration.Name" />
+        <ValidationMessage For="@(() => registration.Name)" />
+    </div>
+
+    <div>
+        <label for="userEmail">Email:</label>
+        <InputText id="userEmail" @bind-Value="registration.Email" />
+        <ValidationMessage For="@(() => registration.Email)" />
+    </div>
+
+    <button type="submit">Register</button>
+</EditForm>
+
+@if (successMessage != null)
+{
+    <p style="color: green">@successMessage</p>
+}
+
+@code {
+    private RegistrationModel registration = new();
+    private string? successMessage;
+
+    [Inject] private SessionStateService SessionState { get; set; } = default!;
+    [Inject] private AttendanceTrackerService AttendanceTracker { get; set; } = default!;
+
+    private void SubmitForm()
+    {
+        // Update the user's session data
+        SessionState.UserName = registration.Name;
+        SessionState.UserEmail = registration.Email;
+
+        // Track attendance or user registration
+        AttendanceTracker.RegisterUser(SessionState.UserName, SessionState.UserEmail);
+
+        successMessage = "Registration successful! You are now logged in.";
+    }
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Name is required.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        public string Email { get; set; } = string.Empty;
+    }
+}
