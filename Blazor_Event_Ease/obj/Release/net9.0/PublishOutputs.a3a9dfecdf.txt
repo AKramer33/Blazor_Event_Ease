@@ -1,0 +1,1 @@
+C:\Personal OneDrive\OneDrive\Personal Coding Projects\Blazor_Event_Ease\dist\web.config
